@@ -22,11 +22,11 @@ public class Login implements Serializable {
     public String getPassword() { return password; }
     public void setPassword(String newValue) { password = newValue; }
     public String includeUser() {
-        loggedIn.addUser(name);
+
         return "chat.xhtml";
     }
     public String logout() {
-        loggedIn.removeUser(name);
+
         return "login.xhtml";
     }
 

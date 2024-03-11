@@ -10,49 +10,39 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 //@formatter:off
 
-@ApplicationScoped
-@Named
+@ViewScoped
+@Named("userBean")
 public class UserBean implements Serializable {
-    private List<String> messages = new ArrayList<>();
-    private List<String> users = new ArrayList<>();
-    private String currentUser;
-
+    @Inject
     @Push
-    private PushContext pushContext;
+    PushContext chatChannel;
+    private static final Logger LOG = Logger.getLogger(UserBean.class.getName());
+    String message;
 
-    public void sendMessage(String message) {
-        String formattedMessage = LocalDateTime.now() + " - " + currentUser + ": " + message;
-        messages.add(formattedMessage);
-        pushContext.send(formattedMessage);
+    public void sendMessage() {
+        LOG.log(Level.INFO, "send push message");
+        this.sendPushMessage("hello");
     }
 
-    public void addUser(String userName) {
-        if (!users.contains(userName)) {
-            users.add(userName);
-            currentUser = userName;
-        }
+    private void sendPushMessage(Object message) {
+        chatChannel.send("" + message + " at " + LocalDateTime.now());
     }
 
-    public void removeUser(String userName) {
-        users.remove(userName);
-        if (currentUser.equals(userName)) {
-            currentUser = null;
-        }
+    public String getMessage() {
+        return message;
     }
 
-    public List<String> getMessages() {
-        return messages;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-    public List<String> getUsers() {
-        return users;
-    }
-
-    public String getCurrentUser() {
-        return currentUser;
+    public void sendMessage2() {
+        // log.log(Level.INFO, "send push message from input box::" + this.message);
+        this.sendPushMessage(this.message);
     }
 }
