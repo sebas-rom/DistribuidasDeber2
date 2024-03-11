@@ -7,12 +7,12 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
 >
 <h:head>
-    <title>JSF 2.3: Websocket Sample</title>
+    <title>Chat Room</title>
     <script>
         function onMessage(message, channel, event) {
             // console.log('jsf push message::' + message + ", channel ::" + channel + ", event::" + event);
             // document.getElementById("message").innerHTML = message;
-            var m = "message:" + message + ", channel:" + channel + ", event:" + event;
+            var m = "message:" + message
             console.log(m);
             var ul = document.getElementById("messages");
             var li = document.createElement("li");
@@ -22,36 +22,28 @@
     </script>
 </h:head>
 <h:body>
-    <h1>JSF 2.3: Hello Websocket </h1>
+    <h1>Public Chat Rooms </h1>
     <ul id="messages" >
     </ul>
     <hr />
     <hr />
     <h:form id="form">
+        <h:outputText value="Welcome #{user.name}" />
+        <h:commandLink value="Exit Chat" action="#{user.logout}" />
+
+        <div>
+            <h:outputLabel for="messageInput" value="Message:" />
+            <h:inputText
+                    id="messageInput"
+                    value="#{userBean.currentMessage}"/>
+
+        </div>
         <div>
             <h:commandButton
                     id="sendMessage"
-                    type="submit"
-                    action="#{userBean.sendMessage()}" value="Send Message">
-                <f:ajax />
-            </h:commandButton>
-        </div>
-        <div>
-            <h:outputLabel for="messageInput" value="Say hi to JSF Websocket" />
-            <h:inputText
-                    id="messageInput"
-                    value="#{userBean.message}"/>
-
-        </div>
-        <h:panelGroup layout="block" id="messageFromInputBox">
-            Input text is :: #{userBean.message}
-        </h:panelGroup>
-        <div>
-            <h:commandButton
-                    id="sendMessage2"
-                    action="#{userBean.sendMessage2()}"
-                    value="Send Message from Input Box">
-                <f:ajax execute="@form" render="messageFromInputBox" />
+                    action="#{userBean.sendMessage(userBean.currentMessage, user.name)}"
+                    value="Send">
+                <f:ajax execute="@form" render="messageInput" />
             </h:commandButton>
         </div>
 

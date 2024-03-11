@@ -22,27 +22,29 @@ public class UserBean implements Serializable {
     @Push
     PushContext chatChannel;
     private static final Logger LOG = Logger.getLogger(UserBean.class.getName());
-    String message;
+    private String currentUser;
+    private String currentMessage;
 
-    public void sendMessage() {
-        LOG.log(Level.INFO, "send push message");
-        this.sendPushMessage("hello");
+
+
+
+    public void sendMessage(String message, String user) {
+        setCurrentUser(user);
+        String formattedMessage = LocalDateTime.now().getHour() + " - " + currentUser + ": " + message;
+        chatChannel.send(formattedMessage);
+        System.out.println(formattedMessage);
+    }
+    public String getCurrentUser() {
+        return this.currentUser;
+    }
+    public void setCurrentUser(String currentUser){
+        this.currentUser=currentUser;
     }
 
-    private void sendPushMessage(Object message) {
-        chatChannel.send("" + message + " at " + LocalDateTime.now());
+    public String getCurrentMessage() {
+        return this.currentMessage;
+    }public void setCurrentMessage(String currentMessage) {
+        this.currentMessage = currentMessage;
     }
 
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public void sendMessage2() {
-        // log.log(Level.INFO, "send push message from input box::" + this.message);
-        this.sendPushMessage(this.message);
-    }
 }
