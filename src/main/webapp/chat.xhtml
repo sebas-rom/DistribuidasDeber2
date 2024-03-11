@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Chat Room</title>
+
+    </h:head>
+    <h:body>
+        <h:form>
+            <h:outputText value="Welcome #{user.name}" />
+            <h:commandLink value="Exit Chat" action="#{user.logout}" />
+            <h:dataTable value="#{userBean.messages}" var="message">
+                <h:column>
+                    <h:outputText value="#{message}" />
+                </h:column>
+            </h:dataTable>
+            <h:inputText id="messageInput" value="#{messageInput}"/>
+            <h:commandButton value="Send" action="#{userBean.sendMessage(messageInput)}">
+                <f:ajax execute="messageInput" render="@form" resetValues="true"/>
+            </h:commandButton>
+        </h:form>
+
+    </h:body>
+</html>
