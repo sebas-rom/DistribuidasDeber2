@@ -29,5 +29,9 @@ public class Login implements Serializable {
 
         return "login.xhtml";
     }
+    public String chatroom2() {
+
+        return "login.xhtml";
+    }
 
 }

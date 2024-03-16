@@ -18,6 +18,9 @@ public class UserBean implements Serializable {
     @Inject
     @Push
     PushContext chatChannel;
+
+    @Inject Login login;
+
     private static final Logger LOG = Logger.getLogger(UserBean.class.getName());
     private String currentUser;
     private String currentMessage;
