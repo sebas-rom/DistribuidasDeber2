@@ -1,17 +1,14 @@
 package com.userwebsocket;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.SessionScoped;import javax.faces.push.Push;
-import javax.faces.push.PushContext;
-import javax.faces.view.ViewScoped;import javax.inject.Named;
-import javax.inject.Inject;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.faces.push.Push;
+import javax.faces.push.PushContext;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 //@formatter:off
 
@@ -27,13 +24,14 @@ public class UserBean implements Serializable {
 
 
 
-
     public void sendMessage(String message, String user) {
-        setCurrentUser(user);
-        String formattedMessage = LocalDateTime.now().getHour() + " - " + currentUser + ": " + message;
-        chatChannel.send(formattedMessage);
-        System.out.println(formattedMessage);
+    setCurrentUser(user);
+    String formattedMessage = LocalDateTime.now().getHour() + " - " + currentUser + ": " + message;
+    chatChannel.send(formattedMessage);
+    System.out.println(formattedMessage);
+    setCurrentMessage(""); // Clear the currentMessage
     }
+
     public String getCurrentUser() {
         return this.currentUser;
     }
