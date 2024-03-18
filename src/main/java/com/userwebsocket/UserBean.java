@@ -15,21 +15,33 @@ import javax.inject.Named;
 @ViewScoped
 @Named("userBean")
 public class UserBean implements Serializable {
+
+    // Push more channels if we need more chatrooms
     @Inject
-    @Push
+    @Push(channel = "chatChannel")
     PushContext chatChannel;
+
+    @Inject
+    @Push(channel = "chatChannel2")
+    PushContext chatChannel2;
     private static final Logger LOG = Logger.getLogger(UserBean.class.getName());
     private String currentUser;
     private String currentMessage;
 
 
 
-    public void sendMessage(String message, String user) {
+    public void sendMessage(String message, String user, String channel) {
     setCurrentUser(user);
     String formattedMessage = LocalDateTime.now().getHour() + " - " + currentUser + ": " + message;
-    chatChannel.send(formattedMessage);
+    // select appropiate channel to send the message
+    // assure that the function call on chat.xhtml passes the correct channel string
+    if ("chatChannel".equals(channel)) {
+        chatChannel.send(formattedMessage);
+    } else if ("chatChannel2".equals(channel)) {
+        chatChannel2.send(formattedMessage);
+    }
     System.out.println(formattedMessage);
-    System.out.println(" ->"+ chatChannel);
+//    System.out.println(" ->"+ channel); // for debugging
     setCurrentMessage(""); // Clear the currentMessage
     }
 

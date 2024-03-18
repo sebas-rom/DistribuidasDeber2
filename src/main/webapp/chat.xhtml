@@ -41,7 +41,7 @@
         <div>
             <h:commandButton
                     id="sendMessage"
-                    action="#{userBean.sendMessage(userBean.currentMessage, user.name)}"
+                    action="#{userBean.sendMessage(userBean.currentMessage, user.name, 'chatChannel')}"
                     value="Send">
                 <f:ajax execute="@form" render="messageInput" />
             </h:commandButton>
