@@ -18,9 +18,6 @@ public class UserBean implements Serializable {
     @Inject
     @Push
     PushContext chatChannel;
-
-    @Inject Login login;
-
     private static final Logger LOG = Logger.getLogger(UserBean.class.getName());
     private String currentUser;
     private String currentMessage;
@@ -32,6 +29,7 @@ public class UserBean implements Serializable {
     String formattedMessage = LocalDateTime.now().getHour() + " - " + currentUser + ": " + message;
     chatChannel.send(formattedMessage);
     System.out.println(formattedMessage);
+    System.out.println(" ->"+ chatChannel);
     setCurrentMessage(""); // Clear the currentMessage
     }
 

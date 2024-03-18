@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+>
+<h:head>
+    <title>Chat Room 2</title>
+    <script>
+        function onMessage(message, channel, event) {
+            // console.log('jsf push message::' + message + ", channel ::" + channel + ", event::" + event);
+            // document.getElementById("message").innerHTML = message;
+            var m = "message:" + message
+            console.log(m);
+            var ul = document.getElementById("messages");
+            var li = document.createElement("li");
+            li.appendChild(document.createTextNode(m));
+            ul.appendChild(li);
+        }
+    </script>
+</h:head>
+<h:body>
+    <h1>Chat Room 2</h1>
+    <ul id="messages" >
+    </ul>
+    <hr />
+    <hr />
+    <h:form id="form">
+        <h:outputText value="Welcome #{user.name}" />
+        <h:commandLink value="Exit Chat" action="#{user.logout}" />
+
+        <div>
+            <h:outputLabel for="messageInput" value="Message:" />
+            <h:inputText
+                    id="messageInput"
+                    value="#{userBean.currentMessage}"/>
+
+        </div>
+        <div>
+            <h:commandButton
+                    id="sendMessage"
+                    action="#{userBean.sendMessage(userBean.currentMessage, user.name)}"
+                    value="Send">
+                <f:ajax execute="@form" render="messageInput" />
+            </h:commandButton>
+            <h:commandButton value="Go to Chat Room 1" action="#{user.chatroom1}" />
+        </div>
+
+    </h:form>
+    <f:websocket channel="chatChannel2" onmessage="onMessage" />
+</h:body>
+</html>

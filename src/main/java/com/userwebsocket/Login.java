@@ -1,11 +1,12 @@
 package com.userwebsocket;
 
 
+import java.io.Serializable;
+// or import javax.faces.bean.SessionScoped;
+
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.io.Serializable;
-// or import javax.faces.bean.SessionScoped;
 
 @Named("user") // or @ManagedBean(name="user")
 @SessionScoped
@@ -31,7 +32,11 @@ public class Login implements Serializable {
     }
     public String chatroom2() {
 
-        return "login.xhtml";
+        return "chat2.xhtml";
+    }
+    public String chatroom1() {
+
+        return "chat.xhtml";
     }
 
 }
