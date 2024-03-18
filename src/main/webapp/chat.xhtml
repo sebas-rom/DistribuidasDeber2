@@ -9,10 +9,8 @@
 <h:head>
     <title>Chat Room</title>
     <script>
-        function onMessage(message, channel, event) {
-            // console.log('jsf push message::' + message + ", channel ::" + channel + ", event::" + event);
-            // document.getElementById("message").innerHTML = message;
-            var m = "message:" + message
+        function onGlobalMessage(message, channel, event) {
+            var m = message
             console.log(m);
             var ul = document.getElementById("messages");
             var li = document.createElement("li");
@@ -22,32 +20,38 @@
     </script>
 </h:head>
 <h:body>
-    <h1>Public Chat Rooms </h1>
+    <h:outputText value="Welcome #{user.name}" />
+    <h:commandLink value="Exit Chat" action="#{user.logout}" />
+    <hr />
+    <h1>Global Chat Room </h1>
     <ul id="messages" >
     </ul>
     <hr />
-    <hr />
-    <h:form id="form">
-        <h:outputText value="Welcome #{user.name}" />
-        <h:commandLink value="Exit Chat" action="#{user.logout}" />
 
+    <h:form id="form">
         <div>
             <h:outputLabel for="messageInput" value="Message:" />
             <h:inputText
                     id="messageInput"
                     value="#{userBean.currentMessage}"/>
-
         </div>
         <div>
             <h:commandButton
                     id="sendMessage"
-                    action="#{userBean.sendMessage(userBean.currentMessage, user.name)}"
+                    action="#{userBean.sendGlobalMessage(userBean.currentMessage, user.name)}"
                     value="Send">
                 <f:ajax execute="@form" render="messageInput" />
             </h:commandButton>
         </div>
-
     </h:form>
-    <f:websocket channel="chatChannel" onmessage="onMessage" />
+
+
+    <h1>Private Chat Room </h1>
+    <ul id="privateMessages" >
+    </ul>
+    <hr />
+
+
+    <f:websocket channel="globalChat" onmessage="onGlobalMessage" />
 </h:body>
 </html>

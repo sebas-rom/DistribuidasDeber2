@@ -12,7 +12,7 @@ import java.io.Serializable;
 public class Login implements Serializable {
     boolean alreadyAddedThisUse = false;
     @Inject
-    UserBean loggedIn;
+    UserBean userBean;
     private String name;
     private String password;
 
@@ -22,7 +22,7 @@ public class Login implements Serializable {
     public String getPassword() { return password; }
     public void setPassword(String newValue) { password = newValue; }
     public String includeUser() {
-
+        userBean.sendGlobalMessage("Logged In",name);
         return "chat.xhtml";
     }
     public String logout() {
