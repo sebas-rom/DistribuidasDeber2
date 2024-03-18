@@ -23,10 +23,12 @@ public class Login implements Serializable {
     public void setPassword(String newValue) { password = newValue; }
     public String includeUser() {
         userBean.sendGlobalMessage("Logged In",name);
+        userBean.addConnectedUser(name);
         return "chat.xhtml";
     }
     public String logout() {
-
+        userBean.sendGlobalMessage("Logged Out",name);
+        userBean.removeConnectedUser(name);
         return "login.xhtml";
     }
 

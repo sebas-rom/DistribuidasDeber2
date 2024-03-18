@@ -17,11 +17,14 @@
             li.appendChild(document.createTextNode(m));
             ul.appendChild(li);
         }
+
+
     </script>
 </h:head>
 <h:body>
-    <h:outputText value="Welcome #{user.name}" />
+    <h:outputText value="Welcome #{user.name}       " />
     <h:commandLink value="Exit Chat" action="#{user.logout}" />
+
     <hr />
     <h1>Global Chat Room </h1>
     <ul id="messages" >
@@ -29,29 +32,36 @@
     <hr />
 
     <h:form id="form">
-        <div>
             <h:outputLabel for="messageInput" value="Message:" />
             <h:inputText
                     id="messageInput"
                     value="#{userBean.currentMessage}"/>
-        </div>
-        <div>
             <h:commandButton
                     id="sendMessage"
                     action="#{userBean.sendGlobalMessage(userBean.currentMessage, user.name)}"
                     value="Send">
                 <f:ajax execute="@form" render="messageInput" />
             </h:commandButton>
-        </div>
     </h:form>
 
 
     <h1>Private Chat Room </h1>
-    <ul id="privateMessages" >
+    <ul id="privateMessages">
+        <li><h:outputText value="#{userBean.privateMessages}" /></li>
     </ul>
     <hr />
 
 
+    <h:form id="privateForm">
+        <h:selectOneMenu id="recipientMenu" value="#{userBean.recipient}">
+            <f:selectItems value="#{userBean.connectedUsers}" />
+        </h:selectOneMenu>
+        <h:inputText id="privateMessageInput" value="#{userBean.currentPrivateMessage}" />
+        <h:commandButton action="#{userBean.sendPrivateMessage(userBean.currentPrivateMessage, userBean.recipient)}" value="Send" />
+    </h:form>
+
+
     <f:websocket channel="globalChat" onmessage="onGlobalMessage" />
+
 </h:body>
 </html>
