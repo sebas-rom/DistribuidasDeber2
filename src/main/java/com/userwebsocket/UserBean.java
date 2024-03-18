@@ -32,7 +32,8 @@ public class UserBean implements Serializable {
 
     public void sendMessage(String message, String user, String channel) {
     setCurrentUser(user);
-    String formattedMessage = LocalDateTime.now().getHour() + " - " + currentUser + ": " + message;
+    LocalDateTime now = LocalDateTime.now();
+    String formattedMessage = String.format(" [%02d:%02d:%02d] %s: %s", now.getHour(), now.getMinute(), now.getSecond(), currentUser, message);
     // select appropiate channel to send the message
     // assure that the function call on chat.xhtml passes the correct channel string
     if ("chatChannel".equals(channel)) {
